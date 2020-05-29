@@ -28,10 +28,8 @@ def get_data(filename):
 
 def train():
     train_datagen = ImageDataGenerator(
-        rescale=1. / 255,
-        rotation_range=40,
-        fill_mode='nearest')
-
+        rescale=1. / 255)
+    
     validation_datagen = ImageDataGenerator(rescale=1./255)
     train_generator = train_datagen.flow(training_images, training_labels,
                                          batch_size=5)
@@ -48,7 +46,7 @@ def train():
         tf.keras.layers.Dense(26, activation="softmax"),
     ])
 
-    model.compile(optimizer = Adam(lr=0.0001),
+    model.compile(optimizer = RMSprop(lr=0.0001),
                   loss = "sparse_categorical_crossentropy",
                   metrics = ["acc"])
     history = model.fit_generator(train_generator,
